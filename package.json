@@ -1,0 +1,32 @@
+{
+  "name": "mongo-integration",
+  "version": "1.0.0",
+  "description": "Testing integration of Mongo using MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch --env-file=.env server.js",
+    "start": "node --env-file=.env server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cadambank/Mongo_Integration.git"
+  },
+  "keywords": [
+    "Mongo",
+    "Mongoose",
+    "NodeJS",
+    "ExpressJS"
+  ],
+  "author": "Cadamban Kannan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cadambank/Mongo_Integration/issues"
+  },
+  "homepage": "https://github.com/cadambank/Mongo_Integration#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.3"
+  }
+}
