@@ -3,7 +3,7 @@ const expressAsyncHandler = require("express-async-handler");
 const userController = require("../controller/user-controller");
 const authMiddleware = require("../middleware/authourisation");
 
-router.get("/", (req, res) => {
+router.get("/", authMiddleware.protectRoute, (req, res) => {
   const Users = userController.getUsers();
   console.log(Users);
   res.json({ message: "User Data", users: Users });
@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 
 router.post(
   "/",
+  authMiddleware.protectRoute,
   expressAsyncHandler(async (req, res) => {
     try {
       const Users = await userController.registerUser(req);
@@ -44,6 +45,7 @@ router.post(
   })
 );
 
+//Sample Route
 router.get("/me", authMiddleware.protectRoute, userController.getMe);
 
 module.exports = router;
