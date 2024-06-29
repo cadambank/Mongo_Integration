@@ -58,4 +58,8 @@ const authenticateUser = expressAsyncHandler(async (req) => {
   }
 });
 
-module.exports = { getUsers, registerUser, authenticateUser };
+const getMe = expressAsyncHandler(async (req, res) => {
+  res.status(200).send("Get Me");
+});
+
+module.exports = { getUsers, registerUser, authenticateUser, getMe };

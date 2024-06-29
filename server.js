@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const logger = require("./middleware/logger");
+const errHandler = require("./middleware/errorMiddleware");
 PORT = process.env.API_PORT || 8000;
 const userController = require("./controller/user-controller");
 //Initialising Express App
@@ -17,4 +18,7 @@ app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //Initiating routes
+
 app.use("/api/user", require("./routers/user-router"));
+
+app.use(errHandler);

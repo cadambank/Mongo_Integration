@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const userController = require("../controller/user-controller");
+const authMiddleware = require("../middleware/authourisation");
+
 router.get("/", (req, res) => {
   const Users = userController.getUsers();
   console.log(Users);
@@ -41,5 +43,7 @@ router.post(
     }
   })
 );
+
+router.get("/me", authMiddleware.protectRoute, userController.getMe);
 
 module.exports = router;
