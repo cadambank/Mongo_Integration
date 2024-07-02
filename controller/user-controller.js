@@ -45,13 +45,21 @@ const authenticateUser = expressAsyncHandler(async (req) => {
 
   if (result) {
     const jwttoken = jwt.sign({ id: user[0]._id }, process.env.JWT_SECRET, {
-      expiresIn: "30m",
+      expiresIn: "29m",
     });
+    const refresh_jwttoken = jwt.sign(
+      { id: user[0]._id },
+      process.env.REFRESH_JWT_SECRET,
+      {
+        expiresIn: "30m",
+      }
+    );
     return {
       id: user[0]._id,
       userName: user[0].userName,
       email: user[0].email,
       token: jwttoken,
+      refreshToken: refresh_jwttoken,
     };
   } else {
     throw new Error("Bad Credentials");

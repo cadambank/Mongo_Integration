@@ -15,12 +15,40 @@ const protectRoute = asyncHandler(async (req, res, next) => {
 
       //Verify
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decoded);
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (error) {
-      console.log(error);
-      res.status(401);
-      throw new Error("Not Authourised");
+      if (error.message === "jwt expired") {
+        try {
+          const decoded = jwt.verify(
+            req.headers.refresh_token,
+            process.env.REFRESH_JWT_SECRET
+          );
+
+          console.log(decoded);
+          const jwttoken = jwt.sign(
+            { id: req.headers.id },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: "29m",
+            }
+          );
+          const refresh_jwttoken = jwt.sign(
+            { id: req.headers.id },
+            process.env.REFRESH_JWT_SECRET,
+            {
+              expiresIn: "30m",
+            }
+          );
+          res.appendHeader("newToken", jwttoken);
+          res.appendHeader("refreshToken", refresh_jwttoken);
+          next();
+        } catch (error) {
+          res.status(401);
+          throw new Error("Not Authourised");
+        }
+      }
     }
   } else {
     res.status(401);
